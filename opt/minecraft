@@ -3,6 +3,11 @@
 mc_port=25566
 port=${1:-${PORT:-8080}}
 
+if [ -z "$NGROK_API_TOKEN" ]; then
+  echo "You must set the NGROK_API_TOKEN config var to create a TCP tunnel!"
+  exit 1
+fi
+
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout -proto=tcp ${mc_port}"
 echo "Starting: ${ngrok_cmd}"
 eval "$ngrok_cmd &"
@@ -29,7 +34,7 @@ eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
 echo "Starting: web"
-eval "while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; cat eula.txt; } | nc -l ${port}; done &"
+eval "while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; echo 'Running'; } | nc -l ${port}; done &"
 web_pid=$!
 
 trap "kill -3 $ngrok_pid $main_pid $web_pid; kill $ngrok_pid $main_pid $web_pid" SIGTERM
@@ -37,9 +42,11 @@ trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
 
 while kill -0 $main_pid
 do
-  sleep 600
+  echo "web status: $(kill -0 $web_pid) $(curl localhost:${port})"
+  echo "ngrok status: $(kill -0 $ngrok_pid)"
+  sleep 2000
 done
 
-kill -9 $main_pid
-kill -9 $ngrok_pid
-kill -9 $web_pid
+# kill $main_pid
+# kill $ngrok_pid
+# kill $web_pid
