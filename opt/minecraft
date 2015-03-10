@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+mc_port=25566
+port=${1:-${PORT:-8080}}
+
+bin/setup
+
+ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout -proto=tcp ${mc_port}"
+echo "Starting: ${ngrok_cmd}"
+eval "$ngrok_cmd &"
+ngrok_pid=$!
+
+# create server config
+echo "server-port=${mc_port}" > /app/server.properties
+
+limit=$(ulimit -u)
+case $limit in
+  512)   # 2X Dyno
+  heap="768m"
+  ;;
+  32768) # PX Dyno
+  heap="4g"
+  ;;
+  *)     # 1X Dyno
+  heap="384m"
+  ;;
+esac
+
+echo "Starting: minecraft ${mc_port}"
+eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
+main_pid=$!
+
+echo "Starting: web"
+eval "while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; cat eula.txt; } | nc -l ${port}; done &"
+web_pid=$!
+
+trap "kill -3 $ngrok_pid $main_pid $web_pid; kill $ngrok_pid $main_pid $web_pid" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
+
+while kill -0 $main_pid
+do
+  sleep 600
+done
+
+kill -9 $main_pid
+kill -9 $ngrok_pid
+kill -9 $web_pid

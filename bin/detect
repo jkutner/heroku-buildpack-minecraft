@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -f eula.txt ]; then
+  echo "Minecraft"
+  exit 0
+else
+  exit 1
+fi

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -eu
+
+indent() {
+  sed -u 's/^/ /'
+}
+
+BP_DIR="$(cd "$(dirname "$0")" && pwd)"
+BUILD_DIR=$1
+CACHE_DIR=$2
+OPT_DIR=$BP_DIR/../opt/
+
+echo -n "-----> Installing ngrok... "
+curl --silent -o ngrok.zip -L "https://api.equinox.io/1/Applications/ap_pJSFC5wQYkAyI0FIVwKYs9h1hW/Updates/Asset/ngrok.zip?os=linux&arch=386&channel=stable" | indent
+unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
+echo "done"
+
+mincraft_version=${MINECRAFT_VERSION:-"1.8.3"}
+minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${mincraft_version}/minecraft_server.${mincraft_version}.jar"
+
+echo -n "-----> Installing Minecraft... "
+curl -o minecraft.jar -s -L $minecraft_url
+echo "done"
+
+mkdir -p $BUILD_DIR/bin
+cp $OPT_DIR/minecraft $BUILD_DIR/bin
