@@ -3,8 +3,6 @@
 mc_port=25566
 port=${1:-${PORT:-8080}}
 
-bin/setup
-
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout -proto=tcp ${mc_port}"
 echo "Starting: ${ngrok_cmd}"
 eval "$ngrok_cmd &"

@@ -21,6 +21,7 @@ minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${mincraft_v
 
 echo -n "-----> Installing Minecraft... "
 curl -o minecraft.jar -s -L $minecraft_url
+mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
 mkdir -p $BUILD_DIR/bin
