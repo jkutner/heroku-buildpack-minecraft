@@ -9,7 +9,7 @@ if [ -z "$NGROK_API_TOKEN" ]; then
 fi
 
 
-eval "while true; do bin/sync; sleep 5; done"
+eval "while true; do bin/sync; sleep 5; done &"
 sync_pid=$!
 
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
