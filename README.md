@@ -20,7 +20,7 @@ Then, install the [Heroku toolbelt](https://toolbelt.heroku.com/).
 Create a Heroku app, set your ngrok token, and push:
 
 ```sh-session
-$ heroku create
+$ heroku create --buildpack https://github.com/jkutner/heroku-buildpack-minecraft
 $ heroku config:set NGROK_API_TOKEN="xxxxx"
 $ git push heroku master
 ```
@@ -69,3 +69,14 @@ You can customize ngrok by setting the `NGROK_OPTS` config variable. For example
 ```
 $ heroku config:set NGROK_OPTS="-subdomain=my-subdomain"
 ```
+
+### Minecraft
+
+You can choose the Minecraft version by setting the MINECRAFT_VERSION like so:
+
+```
+$ heroku config:set MINECRAFT_VERSION="1.8.3"
+```
+
+You can add files such as `banned-players.json`, `banned-ips.json`, `ops.json`,
+`whitelist.json` to your Git repository and the Minecraft server will pick them up.
