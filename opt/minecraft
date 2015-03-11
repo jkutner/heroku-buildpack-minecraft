@@ -40,13 +40,11 @@ web_pid=$!
 trap "kill -3 $ngrok_pid $main_pid $web_pid; kill $ngrok_pid $main_pid $web_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
 
+sleep 10
+
 while kill -0 $main_pid
 do
   echo "web status: $(kill -0 $web_pid) $(curl localhost:${port})"
   echo "ngrok status: $(kill -0 $ngrok_pid)"
   sleep 2000
 done
-
-# kill $main_pid
-# kill $ngrok_pid
-# kill $web_pid
