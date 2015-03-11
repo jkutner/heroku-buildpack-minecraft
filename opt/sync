@@ -7,9 +7,7 @@ access_key = ${AWS_ACCESS_KEY}
 secret_key = ${AWS_SECRET_KEY}
 EOF
 
-  echo -n "Syncing world to s3... "
   s3cmd sync world/ s3://${AWS_BUCKET}/world/ < /dev/null 2>&1
-  echo "done"
 
   rm .s3cfg
 fi
