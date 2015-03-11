@@ -8,7 +8,7 @@ if [ -z "$NGROK_API_TOKEN" ]; then
   exit 1
 fi
 
-ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout -proto=tcp ${mc_port}"
+ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
 echo "Starting: ngrok"
 eval "$ngrok_cmd &"
 ngrok_pid=$!
