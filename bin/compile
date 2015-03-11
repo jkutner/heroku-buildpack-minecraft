@@ -6,7 +6,7 @@ indent() {
   sed -u 's/^/       /'
 }
 
-export_env_dir()
+export_env_dir() {
   env_dir=$1
   whitelist_regex=${2:-''}
   blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH|JAVA_OPTS)$'}
