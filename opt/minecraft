@@ -47,4 +47,4 @@ trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
 #   sleep 2000
 # done
 
-ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start' 
+eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start'"
