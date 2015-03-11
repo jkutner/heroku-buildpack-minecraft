@@ -1,0 +1,6 @@
+<% open('out.txt') do |f| %>
+  <% f.lines.select { |line| line.include?("[INFO] [client]") }.each do |line| %>
+    <%= line %>
+    <br />
+  <% end %>
+<% end %>

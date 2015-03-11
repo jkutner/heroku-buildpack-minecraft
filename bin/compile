@@ -25,4 +25,5 @@ mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
 mkdir -p $BUILD_DIR/bin
-cp $OPT_DIR/minecraft $BUILD_DIR/bin
+[ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
+[ ! -f $BUILD_DIR/index.rhtml ] && cp $OPT_DIR/index.rhtml $BUILD_DIR
