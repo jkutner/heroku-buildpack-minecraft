@@ -10,7 +10,7 @@ fi
 
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
 echo "Starting: ngrok"
-eval "$ngrok_cmd &"
+eval "$ngrok_cmd > index.html &"
 ngrok_pid=$!
 
 # create server config
@@ -33,18 +33,7 @@ echo "Starting: minecraft ${mc_port}"
 eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
-# echo "Starting: web"
-# eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start' &"
-# web_pid=$!
-
-trap "kill $ngrok_pid $main_pid $web_pid" SIGTERM
-trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
-
-# sleep 10
-#
-# while kill -0 $main_pid
-# do
-#   sleep 2000
-# done
+trap "kill $ngrok_pid $main_pid" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid; exit" SIGKILL
 
 eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start'"
