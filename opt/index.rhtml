@@ -1,4 +1,4 @@
-<% open('out.txt') do |f| %>
+<% open('ngrok.log') do |f| %>
   <% f.lines.select { |line| line.include?("[INFO] [client]") }.each do |line| %>
     <%= line %>
     <br />
