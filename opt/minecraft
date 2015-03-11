@@ -9,7 +9,7 @@ if [ -z "$NGROK_API_TOKEN" ]; then
 fi
 
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout -proto=tcp ${mc_port}"
-echo "Starting: ${ngrok_cmd}"
+echo "Starting: ngrok"
 eval "$ngrok_cmd &"
 ngrok_pid=$!
 
@@ -34,17 +34,15 @@ eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
 echo "Starting: web"
-eval "while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; echo 'Running'; } | nc -l ${port}; done &"
+eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start' &"
 web_pid=$!
 
-trap "kill -3 $ngrok_pid $main_pid $web_pid; kill $ngrok_pid $main_pid $web_pid" SIGTERM
+trap "kill $ngrok_pid $main_pid $web_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
 
 sleep 10
 
 while kill -0 $main_pid
 do
-  echo "web status: $(kill -0 $web_pid) $(curl localhost:${port})"
-  echo "ngrok status: $(kill -0 $ngrok_pid)"
   sleep 2000
 done
