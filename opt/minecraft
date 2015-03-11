@@ -8,6 +8,7 @@ if [ -z "$NGROK_API_TOKEN" ]; then
   exit 1
 fi
 
+
 eval "while true; do; bin/sync; sleep 1000; done &"
 sync_pid=$!
 

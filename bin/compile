@@ -72,5 +72,3 @@ mkdir -p $BUILD_DIR/bin
 
 chmod +x $BUILD_DIR/bin/minecraft
 chmod +x $BUILD_DIR/bin/sync
-
-# $BUILD_DIR/bin/sync | indent
