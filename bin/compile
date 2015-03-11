@@ -19,7 +19,7 @@ echo "done"
 mincraft_version=${MINECRAFT_VERSION:-"1.8.3"}
 minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${mincraft_version}/minecraft_server.${mincraft_version}.jar"
 
-echo -n "-----> Installing Minecraft... "
+echo -n "-----> Installing Minecraft ${mincraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
