@@ -8,6 +8,9 @@ if [ -z "$NGROK_API_TOKEN" ]; then
   exit 1
 fi
 
+eval "while true; do; bin/sync; sleep 1000; done &"
+sync_pid=$!
+
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
 echo "Starting: ngrok"
 eval "$ngrok_cmd > ngrok.log &"
@@ -33,9 +36,7 @@ echo "Starting: minecraft ${mc_port}"
 eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
-trap "kill $ngrok_pid $main_pid" SIGTERM
-trap "kill -9 $ngrok_pid $main_pid; exit" SIGKILL
-
-
+trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
 
 eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
