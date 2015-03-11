@@ -44,7 +44,7 @@ as the server name.
 ## Syncing to S3
 
 The Heroku filesystem is [ephemeral](https://devcenter.heroku.com/articles/dynos#ephemeral-filesystem),
-which means files writen to the file system will be destroyed when the server is restarted.
+which means files written to the file system will be destroyed when the server is restarted.
 
 Minecraft keeps all of the data for the server in flat files on the file system.
 Thus, if you want to keep you world, you'll need to sync it to S3.
