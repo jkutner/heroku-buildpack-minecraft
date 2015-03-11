@@ -38,4 +38,4 @@ trap "kill -9 $ngrok_pid $main_pid; exit" SIGKILL
 
 
 
-eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, , :MimeTypes => {\"rhtml\" => \"text/html\"} :DocumentRoot => Dir.pwd).start'"
+eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
