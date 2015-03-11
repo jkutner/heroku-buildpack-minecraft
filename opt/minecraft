@@ -33,16 +33,18 @@ echo "Starting: minecraft ${mc_port}"
 eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
 main_pid=$!
 
-echo "Starting: web"
-eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start' &"
-web_pid=$!
+# echo "Starting: web"
+# eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start' &"
+# web_pid=$!
 
 trap "kill $ngrok_pid $main_pid $web_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $web_pid; exit" SIGKILL
 
-sleep 10
+# sleep 10
+#
+# while kill -0 $main_pid
+# do
+#   sleep 2000
+# done
 
-while kill -0 $main_pid
-do
-  sleep 2000
-done
+ruby -rwebrick -e'WEBrick::HTTPServer.new(:Port => ${port}, :DocumentRoot => Dir.pwd).start' 
