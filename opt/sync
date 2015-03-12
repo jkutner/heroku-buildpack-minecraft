@@ -12,7 +12,7 @@ EOF
     mkdir -p world
     cd world
     s3cmd get --recursive s3://${AWS_BUCKET}/world/
-    cd -
+    cd - < /dev/null 2>&1
   fi
   rm .s3cfg
 fi
