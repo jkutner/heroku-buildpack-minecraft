@@ -78,5 +78,10 @@ You can choose the Minecraft version by setting the MINECRAFT_VERSION like so:
 $ heroku config:set MINECRAFT_VERSION="1.8.3"
 ```
 
+You can also configure the server properties by creating a `server.properties`
+file in your project and adding it to Git. This is how you would set things like
+Creative mode and Hardcore difficulty. The various options available are
+described on the [Minecraft Wiki](http://minecraft.gamepedia.com/Server.properties).
+
 You can add files such as `banned-players.json`, `banned-ips.json`, `ops.json`,
 `whitelist.json` to your Git repository and the Minecraft server will pick them up.
