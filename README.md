@@ -5,9 +5,7 @@ for running a Minecraft server in a [dyno](https://devcenter.heroku.com/articles
 
 ## Usage
 
-First, create an [ngrok](https://ngrok.com/) account and copy your Auth token.
-
-Next, create a new Git project with a `eula.txt`:
+Create an [ngrok](https://ngrok.com/) account and copy your Auth token. Then create a new Git project with a `eula.txt` file:
 
 ```sh-session
 $ echo 'eula=true' > eula.txt
