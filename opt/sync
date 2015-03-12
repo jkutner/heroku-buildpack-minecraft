@@ -6,10 +6,10 @@ if [ -n "$AWS_BUCKET" ]; then
 access_key = ${AWS_ACCESS_KEY}
 secret_key = ${AWS_SECRET_KEY}
 EOF
-  if [ -d world ]; then
+  #if [ -d world ]; then
     s3cmd sync world/ s3://${AWS_BUCKET}/world/ < /dev/null 2>&1
-  else
-    s3cmd get s3://${AWS_BUCKET}/world/ world/ < /dev/null 2>&1
-  fi
+  #else
+    #s3cmd get world/ s3://${AWS_BUCKET}/world/ < /dev/null 2>&1
+  #fi
   rm .s3cfg
 fi
