@@ -8,14 +8,17 @@ if [ -z "$NGROK_API_TOKEN" ]; then
   exit 1
 fi
 
-echo "Starting sync..."
-eval "while true; do bin/sync; sleep ${AWS_SYNC_INTERVAL:-60}; done &"
-sync_pid=$!
-
+# Start the TCP tunnel
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
 echo "Starting ngrok..."
 eval "$ngrok_cmd > ngrok.log &"
 ngrok_pid=$!
+
+# Do an inline sync first, then start the background job
+echo "Starting sync..."
+bin/sync
+eval "while true; do bin/sync; sleep ${AWS_SYNC_INTERVAL:-60}; done &"
+sync_pid=$!
 
 # create server config
 echo "server-port=${mc_port}" >> /app/server.properties
