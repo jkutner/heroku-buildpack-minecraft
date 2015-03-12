@@ -49,7 +49,7 @@ which means files written to the file system will be destroyed when the server i
 Minecraft keeps all of the data for the server in flat files on the file system.
 Thus, if you want to keep you world, you'll need to sync it to S3.
 
-First, create an [AWS account] and an S3 bucket. Then configure the bucket
+First, create an [AWS account](https://aws.amazon.com/) and an S3 bucket. Then configure the bucket
 and your AWS keys like this:
 
 ```
