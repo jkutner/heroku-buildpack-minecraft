@@ -58,7 +58,7 @@ $ heroku config:set AWS_ACCESS_KEY=xxx
 $ heroku config:set AWS_SECRET_KEY=xxx
 ```
 
-The buildpack will sync your world to the bucket every 5 seconds.
+The buildpack will sync your world to the bucket every 60 seconds, but this is configurable by setting the `AWS_SYNC_INTERVAL` config var.
 
 ## Customizing
 
