@@ -8,17 +8,17 @@ if [ -z "$NGROK_API_TOKEN" ]; then
   exit 1
 fi
 
-
+echo "Starting sync..."
 eval "while true; do bin/sync; sleep 5; done &"
 sync_pid=$!
 
 ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
-echo "Starting: ngrok"
+echo "Starting ngrok..."
 eval "$ngrok_cmd > ngrok.log &"
 ngrok_pid=$!
 
 # create server config
-echo "server-port=${mc_port}" > /app/server.properties
+echo "server-port=${mc_port}" >> /app/server.properties
 
 limit=$(ulimit -u)
 case $limit in
