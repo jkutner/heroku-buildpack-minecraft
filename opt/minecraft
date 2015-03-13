@@ -22,6 +22,10 @@ sync_pid=$!
 
 # create server config
 echo "server-port=${mc_port}" >> /app/server.properties
+touch whitelist.json
+touch banned-players.json
+touch banned-ips.json
+touch ops.json
 
 limit=$(ulimit -u)
 case $limit in
