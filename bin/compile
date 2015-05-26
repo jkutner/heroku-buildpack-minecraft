@@ -37,7 +37,7 @@ for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
 done
 
 echo -n "-----> Installing ngrok... "
-curl --silent -o ngrok.zip -L "https://api.equinox.io/1/Applications/ap_pJSFC5wQYkAyI0FIVwKYs9h1hW/Updates/Asset/ngrok.zip?os=linux&arch=386&channel=stable" | indent
+curl --silent -o ngrok.zip -L "https://dl.ngrok.com/ngrok_2.0.17_linux_amd64.zip" | indent
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
