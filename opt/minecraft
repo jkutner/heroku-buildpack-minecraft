@@ -9,9 +9,9 @@ if [ -z "$NGROK_API_TOKEN" ]; then
 fi
 
 # Start the TCP tunnel
-ngrok_cmd="bin/ngrok -authtoken $NGROK_API_TOKEN -log stdout ${NGROK_OPTS} -proto=tcp ${mc_port}"
+ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
 echo "Starting ngrok..."
-eval "$ngrok_cmd > ngrok.log &"
+eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
 # Do an inline sync first, then start the background job

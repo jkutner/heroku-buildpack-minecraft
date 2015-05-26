@@ -1,5 +1,5 @@
 <% open('ngrok.log') do |f| %>
-  <% f.lines.select { |line| line.include?("[INFO] [client]") }.each do |line| %>
+  <% f.lines.select { |line| line.include?("URL:") }.each do |line| %>
     <%= line %>
     <br />
   <% end %>
