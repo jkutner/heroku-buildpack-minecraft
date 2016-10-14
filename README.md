@@ -35,10 +35,10 @@ This will display the ngrok logs, which will contain the name of the server
 (really it's a proxy, but whatever):
 
 ```
-[03/11/15 02:06:21] [INFO] [client] Tunnel established at tcp://ngrok.com:45010
+Server available at: 0.tcp.ngrok.io:17003
 ```
 
-Copy the `ngrok.com:45010` part, and paste it into your local Minecraft app
+Copy the `0.tcp.ngrok.io:17003` part, and paste it into your local Minecraft app
 as the server name.
 
 ## Syncing to S3
