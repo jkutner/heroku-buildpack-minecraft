@@ -26,7 +26,7 @@
     "AWS_SECRET_KEY": {
       "description": "The AWS secret key for the S3 Bucket",
       "required": false
-    },
+    }
   },
   "buildpacks": [
     {
