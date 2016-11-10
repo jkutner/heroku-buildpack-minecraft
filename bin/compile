@@ -69,7 +69,7 @@ if [ -n "${MINECRAFT_EULA:-""}" ]; then
   echo "eula=true" >> $BUILD_DIR/eula.txt
   echo "done"
 fi
-
+echo "online-mode=false" >> $BUILD_DIR/server.properties
 mkdir -p $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/sync ]        && cp $OPT_DIR/sync $BUILD_DIR/bin
