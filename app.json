@@ -30,7 +30,9 @@
   },
   "buildpacks": [
     {
-      "url": "https://github.com/heroku/heroku-buildpack-jvm-common",
+      "url": "https://github.com/heroku/heroku-buildpack-jvm-common"
+    },
+    {
       "url": "https://github.com/kr/heroku-buildpack-inline.git"
     }
   ]
