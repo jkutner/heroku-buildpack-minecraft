@@ -69,7 +69,7 @@ The buildpack will sync your world to the bucket every 60 seconds, but this is c
 You can customize ngrok by setting the `NGROK_OPTS` config variable. For example:
 
 ```
-$ heroku config:set NGROK_OPTS="-subdomain=my-subdomain"
+$ heroku config:set NGROK_OPTS="--remote-addr 1.tcp.ngrok.io:25565"
 ```
 
 ### Minecraft
