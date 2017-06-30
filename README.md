@@ -62,6 +62,16 @@ $ heroku config:set AWS_SECRET_KEY=xxx
 
 The buildpack will sync your world to the bucket every 60 seconds, but this is configurable by setting the `AWS_SYNC_INTERVAL` config var.
 
+## Connecting to the server console
+
+The Minecraft server runs inside a screen session. You can use [Heroku Exec](https://devcenter.heroku.com/articles/heroku-exec) to connect to your server console.
+
+Once you have Heroku Exec installed, you can connect to the console using 
+
+```
+$ heroku ps:exec screen -r minecraft
+```
+
 ## Customizing
 
 ### ngrok
