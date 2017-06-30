@@ -36,6 +36,9 @@ mkdir -p "$APT_STATE_DIR/lists/partial"
 echo "-----> Installing s3cmd... "
 apt-get $APT_OPTIONS update | indent
 apt-get $APT_OPTIONS -y --force-yes -d install --reinstall s3cmd | indent
+echo "-----> Installing screen... "
+apt-get $APT_OPTIONS -y --force-yes -d install --reinstall screen | indent
+
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
 export PATH="\$HOME/.apt/usr/bin:\$PATH"
