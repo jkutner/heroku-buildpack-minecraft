@@ -41,10 +41,14 @@ case $limit in
 esac
 
 echo "Starting: minecraft ${mc_port}"
-eval "java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui &"
+eval "screen -h 2048 -dmS minecraft java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui"
 main_pid=$!
 
-trap "kill $ngrok_pid $main_pid $sync_pid" SIGTERM
-trap "kill -9 $ngrok_pid $main_pid $sync_pid; exit" SIGKILL
+echo "Tailing log"
+eval "tail -f screenlog.0 &"
+tail_pid=$!
+
+trap "kill $ngrok_pid $main_pid $sync_pid $tail_pid" SIGTERM
+trap "kill -9 $ngrok_pid $main_pid $sync_pid $tail_pid; exit" SIGKILL
 
 eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
