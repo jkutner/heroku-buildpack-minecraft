@@ -76,7 +76,7 @@ $ screen -r minecraft
 ```
 
 **WARNING** You are now connected to the Minecraft server. Use `Ctrl-A Ctrl-D` to exit the screen session. 
-(If you hit `Ctrl-C` while in the session, you'll terminate the Minecraft server.
+(If you hit `Ctrl-C` while in the session, you'll terminate the Minecraft server.)
 
 ## Customizing
 
