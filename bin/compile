@@ -62,7 +62,7 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.11.2"}
+minecraft_version=${MINECRAFT_VERSION:-"1.12"}
 minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
