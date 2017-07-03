@@ -22,10 +22,9 @@ sync_pid=$!
 
 # create server config
 echo "server-port=${mc_port}" >> /app/server.properties
-touch whitelist.json
-touch banned-players.json
-touch banned-ips.json
-touch ops.json
+for f in whitelist banned-players banned-ips ops; do
+  test ! -f $f.json && echo -n "[]" > $f.json
+done
 
 limit=$(ulimit -u)
 case $limit in
