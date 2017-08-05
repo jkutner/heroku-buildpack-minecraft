@@ -14,6 +14,12 @@ echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
+# Start the second TCP tunnel
+ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug -register us ${mc_port}"
+echo "Starting ngrok..."
+eval "$ngrok_cmd | tee ngrok.log &"
+ngrok_pid=$!
+
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
 bin/sync
