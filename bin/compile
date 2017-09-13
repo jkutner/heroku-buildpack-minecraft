@@ -36,6 +36,10 @@ mkdir -p "$APT_STATE_DIR/lists/partial"
 echo "-----> Installing s3cmd... "
 apt-get $APT_OPTIONS update | indent
 apt-get $APT_OPTIONS -y --force-yes -d install --reinstall s3cmd | indent
+echo "-----> Installing screen... "
+apt-get $APT_OPTIONS -y --force-yes -d install --reinstall screen | indent
+mkdir -p $BUILD_DIR/.apt/var/run/screen
+
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
 export PATH="\$HOME/.apt/usr/bin:\$PATH"
@@ -45,6 +49,8 @@ export INCLUDE_PATH="\$HOME/.apt/usr/include:\$INCLUDE_PATH"
 export CPATH="\$INCLUDE_PATH"
 export CPPPATH="\$INCLUDE_PATH"
 export PKG_CONFIG_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/i386-linux-gnu/pkgconfig:\$HOME/.apt/usr/lib/pkgconfig:\$PKG_CONFIG_PATH"
+export PYTHONPATH="\$HOME/.apt/usr/lib/python2.7/dist-packages"
+export SCREENDIR="\$HOME/.apt/var/run/screen"
 EOF
 
 for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
@@ -56,7 +62,7 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.11.2"}
+minecraft_version=${MINECRAFT_VERSION:-"1.12"}
 minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
