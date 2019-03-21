@@ -24,7 +24,7 @@ if [ -n "$DROPBOX_ACCESS_TOKEN" ]; then
 OAUTH_ACCESS_TOKEN=${DROPBOX_ACCESS_TOKEN}
 EOF
   if [ -d world ]; then
-    tar -czvf backup.tar.gz world plugins
+    tar -czvf backup.tar.gz world world_nether world_the_end plugins
     bin/dropbox_uploader.sh upload backup.tar.gz /
     rm backup.tar.gz
   else
