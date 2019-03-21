@@ -1,6 +1,6 @@
 <% open('ngrok.log') do |f| %>
   <% f.lines.select { |line| line.include?("URL:") }.each do |line| %>
-    Server available at: <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>
+    Minecraft Server IP: <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>
     <br />
   <% end %>
 <% end %>
