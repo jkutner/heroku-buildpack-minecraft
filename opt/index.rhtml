@@ -1,7 +1,7 @@
 <% open('ngrok.log') do |f| %>
   <% f.lines.select { |line| line.include?("URL:") }.each do |line| %>
     Minecraft Server IP: <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>.
-    Please wait at least a minute before joining server.
+    Please wait at least a minute before joining the server.
     <br />
   <% end %>
 <% end %>
