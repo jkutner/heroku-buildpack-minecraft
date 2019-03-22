@@ -2,8 +2,6 @@
 
 cat <<EOF
 ---
-config_vars:
-  PATH: "/usr/local/bin:/usr/bin:/bin:/app/vendor/nodejs/bin"
 default_process_types:
   web: bin/minecraft $PORT
 EOF
