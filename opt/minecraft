@@ -14,7 +14,7 @@ echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
-cmd=“ssh -R 1492:localhost:${mc_port} serveo.net”
+
 
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
