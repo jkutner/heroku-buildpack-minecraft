@@ -38,9 +38,6 @@
     },
     {
       "url": "heroku-community/inline"
-    },
-    {
-      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
     }
   ]
 }
