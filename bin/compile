@@ -72,20 +72,21 @@ else
 fi
 
 if [[ -z "${MINECRAFT_SERVER_URL}" ]]; then
-  :
+  echo "No custom server URL set..."
 else
-  echo -n "-----> Setting custom download URL..." 
+  echo "-----> Setting custom download URL..." 
   minecraft_url="${MINECRAFT_SERVER_URL}"
-  echo -n "-----> Set custom download URL to ${minecraft_url}" 
+  echo "-----> Set custom download URL to ${minecraft_url}" 
 fi
 
-echo -n "-----> Installing Minecraft ${minecraft_version}... "
+echo "-----> Installing Minecraft ${minecraft_version}... "
+echo "Where URL = ${minecraft_url}"
 curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
-  echo -n "-----> Accepting Minecraft EULA... "
+  echo "-----> Accepting Minecraft EULA... "
   echo "eula=true" >> $BUILD_DIR/eula.txt
   echo "done"
 fi
