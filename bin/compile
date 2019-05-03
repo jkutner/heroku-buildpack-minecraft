@@ -71,6 +71,12 @@ else
   minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
 fi
 
+if [[ -z "${MINECRAFT_SERVER_URL}" ]]; then
+  :
+else
+  minecraft_url="${MINECRAFT_SERVER_URL}"
+fi
+
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar
