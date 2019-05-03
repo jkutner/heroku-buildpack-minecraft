@@ -74,7 +74,9 @@ fi
 if [[ -z "${MINECRAFT_SERVER_URL}" ]]; then
   :
 else
+  echo -n "-----> Setting custom download URL..." 
   minecraft_url="${MINECRAFT_SERVER_URL}"
+  echo -n "-----> Set custom download URL to ${minecraft_url}" 
 fi
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
