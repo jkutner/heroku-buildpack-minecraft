@@ -22,7 +22,7 @@ Create a Heroku app, set your ngrok token, and push:
 ```sh-session
 $ heroku create
 $ heroku buildpacks:add heroku/jvm
-$ heroku buildpacks:add https://https://github.com/gamer4life1/minecraftBuildpack
+$ heroku buildpacks:add gamer4life1/minecraft
 $ heroku config:set NGROK_API_TOKEN="xxxxx"
 $ git push heroku master
 ```
