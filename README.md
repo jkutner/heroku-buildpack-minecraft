@@ -11,6 +11,7 @@ Create a [free ngrok account](https://ngrok.com/) and copy your Auth token. Then
 
 ```sh-session
 $ echo 'eula=true' > eula.txt
+$ echo 'screen' > Aptfile
 $ git init
 $ git add eula.txt
 $ git commit -m "first commit"
@@ -21,6 +22,7 @@ Create a Heroku app, set your ngrok token, and push:
 
 ```sh-session
 $ heroku create
+$ heroku buildpacks:add --index 1 heroku-community/apt
 $ heroku buildpacks:add heroku/jvm
 $ heroku buildpacks:add jkutner/minecraft
 $ heroku config:set NGROK_API_TOKEN="xxxxx"
