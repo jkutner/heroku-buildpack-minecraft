@@ -61,18 +61,20 @@ echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.14.4"}
 
-if echo "$minecraft_version" | grep -q '^1\.13.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
-  minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="3dc3d84a581f14691199cf6831b71ed1296a9fdf"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-else
-  minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
-fi
+# if echo "$minecraft_version" | grep -q '^1\.13.*$'; then
+#   minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
+#   minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
+# elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
+#   minecraft_uuid="${MINECRAFT_UUID:="3dc3d84a581f14691199cf6831b71ed1296a9fdf"}"
+#   minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+# else
+#   minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
+# fi
+minecraft_url="https://launcher.mojang.com/v1/objects/3dc3d84a581f14691199cf6831b71ed1296a9fdf/server.jar"
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
 curl -o minecraft.jar -s -L $minecraft_url
+cp minecraft.jar $BUILD_DIR/minecraft-1.14.4.jar
 mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
