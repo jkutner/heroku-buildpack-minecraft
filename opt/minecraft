@@ -34,6 +34,9 @@ case $limit in
   32768) # PX Dyno
   heap="4g"
   ;;
+  256) # free Dyno
+  heap="256m"
+  ;;
   *)     # 1X Dyno
   heap="384m"
   ;;
