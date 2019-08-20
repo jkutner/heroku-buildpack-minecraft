@@ -65,7 +65,7 @@ echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.13"}
 
-if echo "$minecraft_version" | grep -q '^1\.13.*$'; then
+if echo "$minecraft_version" | grep -q '^1\.14.4$'; then
   minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
   minecraft_url="https://cdn.getbukkit.org/craftbukkit/craftbukkit-${minecraft_version}.jar"
 else
