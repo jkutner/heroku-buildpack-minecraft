@@ -5,7 +5,7 @@
     "games",
     "minecraft"
   ],
-  "repository": "https://github.com/jkutner/heroku-buildpack-minecraft",
+  "repository": "https://github.com/gamer4life1/minecraftBuildpack",
   "env": {
     "MINECRAFT_EULA": {
       "description": "Do you accept the Minecraft EULA?",
