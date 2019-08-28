@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -n "$AWS_BUCKET" ]; then
+if [ -n "$AWS_BUCKET" ] && [ "$READ_ONLY" != "true" ]; then
   cat << EOF > .s3cfg
 [default]
 access_key = ${AWS_ACCESS_KEY}
