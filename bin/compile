@@ -34,7 +34,7 @@ mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
 
 echo "-----> Installing screen... "
-apt-get $APT_OPTIONS update -y
+apt-get $APT_OPTIONS update -y | indent
 apt-get $APT_OPTIONS -y --allow-downgrades --allow-remove-essential --allow-change-held-packages -d install --reinstall screen | indent
 mkdir -p $BUILD_DIR/.apt/var/run/screen
 
