@@ -7,10 +7,12 @@ for running a Minecraft server in a [dyno](https://devcenter.heroku.com/articles
 
 ## Usage
 
-Create a [free ngrok account](https://ngrok.com/) and copy your Auth token. Then create a new Git project with a `eula.txt` file:
+Create a [free ngrok account](https://ngrok.com/) and copy your Auth token. Then
+create a new Git project with a `eula.txt` and `requirements.txt` file:
 
 ```sh-session
 $ echo 'eula=true' > eula.txt
+$ echo 's3cmd' > requirements.txt
 $ git init
 $ git add eula.txt
 $ git commit -m "first commit"
