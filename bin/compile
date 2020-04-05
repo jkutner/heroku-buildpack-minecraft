@@ -64,7 +64,7 @@ minecraft_version=${MINECRAFT_VERSION:-"1.15.2"}
 
 if echo "$minecraft_version" | grep -q '^1\.15.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
-  minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
+  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
 elif echo "$minecraft_version" | grep -q '^1\.13.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
   minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
