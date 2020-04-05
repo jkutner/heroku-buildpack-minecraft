@@ -13,7 +13,7 @@ export_env_dir() {
   if [ -d "$env_dir" ]; then
     for e in "$(ls "$env_dir")"; do
       echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
-      export "$e=$(cat "$env_dir/$e")"
+        export "$e=$(cat "$env_dir/$e")"
       :
     done
   fi
@@ -57,7 +57,7 @@ done
 
 echo -n "-----> Installing ngrok... "
 curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip" | indent
-unzip ngrok.zip -d "$BUILD_DIR"/bin > /dev/null 2>&1
+unzip ngrok.zip -d "$BUILD_DIR"/bin >/dev/null 2>&1
 echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.15.2"}
@@ -82,13 +82,13 @@ echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
   echo -n "-----> Accepting Minecraft EULA... "
-  echo "eula=true" >> "$BUILD_DIR"/eula.txt
+  echo "eula=true" >>"$BUILD_DIR"/eula.txt
   echo "done"
 fi
 
 mkdir -p "$BUILD_DIR"/bin
-[ ! -f "$BUILD_DIR"/minecraft ]   && cp "$OPT_DIR"/minecraft "$BUILD_DIR"/bin
-[ ! -f "$BUILD_DIR"/sync ]        && cp "$OPT_DIR"/sync "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/minecraft ] && cp "$OPT_DIR"/minecraft "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/sync ] && cp "$OPT_DIR"/sync "$BUILD_DIR"/bin
 [ ! -f "$BUILD_DIR"/index.rhtml ] && cp "$OPT_DIR"/index.rhtml "$BUILD_DIR"
 
 chmod +x "$BUILD_DIR"/bin/minecraft

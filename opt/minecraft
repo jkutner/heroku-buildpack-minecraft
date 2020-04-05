@@ -23,22 +23,22 @@ if [ "$READ_ONLY" != "true" ]; then
 fi
 
 # create server config
-echo "server-port=$mc_port" >> /app/server.properties
+echo "server-port=$mc_port" >>/app/server.properties
 for f in whitelist banned-players banned-ips ops; do
-  test ! -f "$f".json && echo -n "[]" > "$f".json
+  test ! -f "$f".json && echo -n "[]" >"$f".json
 done
 
 limit=$(ulimit -u)
 case $limit in
-  512)   # 2X Dyno
-  heap="768m"
-  ;;
+  512) # 2X Dyno
+    heap="768m"
+    ;;
   32768) # PX Dyno
-  heap="4g"
-  ;;
-  *)     # 1X Dyno
-  heap="384m"
-  ;;
+    heap="4g"
+    ;;
+  *) # 1X Dyno
+    heap="384m"
+    ;;
 esac
 
 echo "Starting: minecraft $mc_port"
