@@ -11,9 +11,9 @@ export_env_dir() {
   whitelist_regex=${2:-''}
   blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH|JAVA_OPTS)$'}
   if [ -d "$env_dir" ]; then
-    for e in $(ls $env_dir); do
+    for e in "$(ls "$env_dir")"; do
       echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
-      export "$e=$(cat $env_dir/$e)"
+      export "$e=$(cat "$env_dir/$e")"
       :
     done
   fi
@@ -24,7 +24,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 OPT_DIR=$BP_DIR/../opt/
 
-export_env_dir $3
+export_env_dir "$3"
 
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
@@ -34,11 +34,11 @@ mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
 
 echo "-----> Installing screen... "
-apt-get $APT_OPTIONS update -y | indent
-apt-get $APT_OPTIONS -y --allow-downgrades --allow-remove-essential --allow-change-held-packages -d install --reinstall screen | indent
-mkdir -p $BUILD_DIR/.apt/var/run/screen
+apt-get "$APT_OPTIONS" update -y | indent
+apt-get "$APT_OPTIONS" -y --allow-downgrades --allow-remove-essential --allow-change-held-packages -d install --reinstall screen | indent
+mkdir -p "$BUILD_DIR"/.apt/var/run/screen
 
-mkdir -p $BUILD_DIR/.profile.d
+mkdir -p "$BUILD_DIR"/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/000_apt.sh
 export PATH="\$HOME/.apt/usr/bin:\$PATH"
 export LD_LIBRARY_PATH="\$HOME/.apt/usr/lib/x86_64-linux-gnu:\$HOME/.apt/usr/lib/i386-linux-gnu:\$HOME/.apt/usr/lib:\$LD_LIBRARY_PATH"
@@ -51,45 +51,45 @@ export PYTHONPATH="\$HOME/.apt/usr/lib/python2.7/dist-packages"
 export SCREENDIR="\$HOME/.apt/var/run/screen"
 EOF
 
-for DEB in $(ls -1 $APT_CACHE_DIR/archives/*.deb); do
-  dpkg -x $DEB $BUILD_DIR/.apt/
+for DEB in "$(ls -1 "$APT_CACHE_DIR"/archives/*.deb)"; do
+  dpkg -x "$DEB" "$BUILD_DIR"/.apt/
 done
 
 echo -n "-----> Installing ngrok... "
 curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip" | indent
-unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
+unzip ngrok.zip -d "$BUILD_DIR"/bin > /dev/null 2>&1
 echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.15.2"}
 
 if echo "$minecraft_version" | grep -q '^1\.15.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+  minecraft_url="https://launcher.mojang.com/v1/objects/$minecraft_uuid/server.jar"
 elif echo "$minecraft_version" | grep -q '^1\.13.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
-  minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
+  minecraft_url="https://launcher.mojang.com/mc/game/$minecraft_version/server/$minecraft_uuid/server.jar"
 elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="d0d0fe2b1dc6ab4c65554cb734270872b72dadd6"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+  minecraft_url="https://launcher.mojang.com/v1/objects/$minecraft_uuid/server.jar"
 else
-  minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
+  minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/$minecraft_version/minecraft_server.$minecraft_version.jar"
 fi
 
-echo -n "-----> Installing Minecraft ${minecraft_version}... "
-curl -o minecraft.jar -s -L $minecraft_url
-mv minecraft.jar $BUILD_DIR/minecraft.jar
+echo -n "-----> Installing Minecraft $minecraft_version... "
+curl -o minecraft.jar -s -L "$minecraft_url"
+mv minecraft.jar "$BUILD_DIR"/minecraft.jar
 echo "done"
 
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
   echo -n "-----> Accepting Minecraft EULA... "
-  echo "eula=true" >> $BUILD_DIR/eula.txt
+  echo "eula=true" >> "$BUILD_DIR"/eula.txt
   echo "done"
 fi
 
-mkdir -p $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/sync ]        && cp $OPT_DIR/sync $BUILD_DIR/bin
-[ ! -f $BUILD_DIR/index.rhtml ] && cp $OPT_DIR/index.rhtml $BUILD_DIR
+mkdir -p "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/minecraft ]   && cp "$OPT_DIR"/minecraft "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/sync ]        && cp "$OPT_DIR"/sync "$BUILD_DIR"/bin
+[ ! -f "$BUILD_DIR"/index.rhtml ] && cp "$OPT_DIR"/index.rhtml "$BUILD_DIR"
 
-chmod +x $BUILD_DIR/bin/minecraft
-chmod +x $BUILD_DIR/bin/sync
+chmod +x "$BUILD_DIR"/bin/minecraft
+chmod +x "$BUILD_DIR"/bin/sync

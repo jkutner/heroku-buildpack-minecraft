@@ -9,7 +9,7 @@ if [ -z "$NGROK_API_TOKEN" ]; then
 fi
 
 # Start the TCP tunnel
-ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug ${NGROK_OPTS} ${mc_port}"
+ngrok_cmd="bin/ngrok tcp -authtoken $NGROK_API_TOKEN -log stdout --log-level debug $NGROK_OPTS $mc_port"
 echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
@@ -23,9 +23,9 @@ if [ "$READ_ONLY" != "true" ]; then
 fi
 
 # create server config
-echo "server-port=${mc_port}" >> /app/server.properties
+echo "server-port=$mc_port" >> /app/server.properties
 for f in whitelist banned-players banned-ips ops; do
-  test ! -f $f.json && echo -n "[]" > $f.json
+  test ! -f "$f".json && echo -n "[]" > "$f".json
 done
 
 limit=$(ulimit -u)
@@ -41,8 +41,8 @@ case $limit in
   ;;
 esac
 
-echo "Starting: minecraft ${mc_port}"
-eval "screen -L -h 2048 -dmS minecraft java -Xmx${heap} -Xms${heap} -jar minecraft.jar nogui"
+echo "Starting: minecraft $mc_port"
+eval "screen -L -h 2048 -dmS minecraft java -Xmx$heap -Xms$heap -jar minecraft.jar nogui"
 main_pid=$!
 
 # Flush the logfile every second, and ensure that the logfile exists
@@ -55,4 +55,4 @@ tail_pid=$!
 trap "kill $ngrok_pid $main_pid $sync_pid $tail_pid" SIGTERM
 trap "kill -9 $ngrok_pid $main_pid $sync_pid $tail_pid; exit" SIGKILL
 
-eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => ${port}, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
+eval "ruby -rwebrick -e'WEBrick::HTTPServer.new(:BindAddress => \"0.0.0.0\", :Port => $port, :MimeTypes => {\"rhtml\" => \"text/html\"}, :DocumentRoot => Dir.pwd).start'"
