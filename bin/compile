@@ -85,7 +85,11 @@ if [ -n "${MINECRAFT_EULA:-""}" ]; then
   echo "eula=true" >> $BUILD_DIR/eula.txt
   echo "done"
 fi
-
+if [ -n "${CRACKED_CLIENT:-""}" ]; then
+  echo -n "-----> Allowing Cracked Clients to join... "
+  echo "online-mode=false" >> $BUILD_DIR/server.properties
+  echo "done"
+fi
 mkdir -p $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/minecraft ]   && cp $OPT_DIR/minecraft $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/sync ]        && cp $OPT_DIR/sync $BUILD_DIR/bin
