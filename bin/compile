@@ -25,7 +25,7 @@ CACHE_DIR=$2
 OPT_DIR=$BP_DIR/../opt/
 
 export_env_dir $3
-echo 's3cmd' >> $BUILD_DIR/requirements.txt
+#echo 's3cmd' >> $BUILD_DIR/requirements.txt
 APT_CACHE_DIR="$CACHE_DIR/apt/cache"
 APT_STATE_DIR="$CACHE_DIR/apt/state"
 APT_OPTIONS="-o debug::nolocking=true -o dir::cache=$APT_CACHE_DIR -o dir::state=$APT_STATE_DIR"
