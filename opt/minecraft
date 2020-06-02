@@ -17,8 +17,10 @@ ngrok_pid=$!
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
 bin/sync
-eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; bin/sync; done &"
-sync_pid=$!
+if [ "$READ_ONLY" != "true" ]; then
+  eval "while true; do sleep ${AWS_SYNC_INTERVAL:-60}; bin/sync; done &"
+  sync_pid=$!
+fi
 
 # create server config
 echo "server-port=${mc_port}" >> /app/server.properties

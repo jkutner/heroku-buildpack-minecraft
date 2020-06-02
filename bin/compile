@@ -34,7 +34,8 @@ mkdir -p "$APT_CACHE_DIR/archives/partial"
 mkdir -p "$APT_STATE_DIR/lists/partial"
 
 echo "-----> Installing screen... "
-apt-get $APT_OPTIONS -y --force-yes -d install --reinstall screen | indent
+apt-get $APT_OPTIONS update -y | indent
+apt-get $APT_OPTIONS -y --allow-downgrades --allow-remove-essential --allow-change-held-packages -d install --reinstall screen | indent
 mkdir -p $BUILD_DIR/.apt/var/run/screen
 
 mkdir -p $BUILD_DIR/.profile.d
@@ -59,9 +60,12 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.14.3"}
+minecraft_version=${MINECRAFT_VERSION:-"1.15.2"}
 
-if echo "$minecraft_version" | grep -q '^1\.13.*$'; then
+if echo "$minecraft_version" | grep -q '^1\.15.*$'; then
+  minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
+  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+elif echo "$minecraft_version" | grep -q '^1\.13.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
   minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
 elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
