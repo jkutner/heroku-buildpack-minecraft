@@ -14,6 +14,8 @@ echo "Starting ngrok..."
 eval "$ngrok_cmd | tee ngrok.log &"
 ngrok_pid=$!
 
+
+
 # Do an inline sync first, then start the background job
 echo "Starting sync..."
 bin/sync
@@ -41,8 +43,9 @@ case $limit in
     ;;
 esac
 
-echo "Starting: minecraft $mc_port"
-eval "screen -L -h 2048 -dmS minecraft java -Xmx$heap -Xms$heap -jar minecraft.jar nogui"
+
+echo "Starting: minecraft ${mc_port}"
+eval "screen -L -h 2048 -dmS minecraft java -Xmx${heap} -Djline.terminal=jline.UnsupportedTerminal -Xms${heap} -jar minecraft.jar nogui"
 main_pid=$!
 
 # Flush the logfile every second, and ensure that the logfile exists
