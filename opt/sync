@@ -8,11 +8,31 @@ secret_key = ${AWS_SECRET_KEY}
 EOF
   if [ -d world ]; then
     s3cmd sync world/ s3://${AWS_BUCKET}/world/
+    s3cmd sync plugins/ s3://${AWS_BUCKET}/plugins/
   else
     mkdir -p world
     cd world
     s3cmd get --recursive s3://${AWS_BUCKET}/world/
+    s3cmd get --recursive s3://${AWS_BUCKET}/plugins/
     cd ..
   fi
   rm .s3cfg
+fi
+
+if [ -n "$DROPBOX_ACCESS_TOKEN" ]; then
+  cat << EOF > .dropbox_uploader
+OAUTH_ACCESS_TOKEN=${DROPBOX_ACCESS_TOKEN}
+EOF
+  if [ -d world ]; then
+    tar -czvf backup.tar.gz world world_nether world_the_end plugins
+    bin/dropbox_uploader.sh upload backup.tar.gz /
+    rm backup.tar.gz
+  else
+    if bin/dropbox_uploader.sh download /backup.tar.gz
+    then
+      tar -xzvf backup.tar.gz
+      rm backup.tar.gz
+    fi
+  fi
+  rm .dropbox_uploader
 fi
