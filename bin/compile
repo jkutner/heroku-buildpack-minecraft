@@ -62,9 +62,12 @@ echo "done"
 
 minecraft_version=${MINECRAFT_VERSION:-"1.16.2"}
 
-if echo "$minecraft_version" | grep -q '^1\.16.*$'; then
+if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
+  minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
+  minecraft_url=`"https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"`
+elif echo "$minecraft_version" | grep -q '^1\.16.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="a412fd69db1f81db3f511c1463fd304675244077"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
+  minecraft_url=`"https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"`
 elif echo "$minecraft_version" | grep -q '^1\.15.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
   minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
