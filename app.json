@@ -26,6 +26,18 @@
     "AWS_SECRET_KEY": {
       "description": "The AWS secret key for the S3 Bucket",
       "required": false
+    },
+    "DROPBOX_OAUTH_APP_KEY": {
+      "description": "The Dropbox OAuth App Key",
+      "required": false
+    },
+    "DROPBOX_OAUTH_APP_SECRET": {
+      "description": "The Dropbox OAuth App Secret",
+      "required": false
+    },
+    "DROPBOX_OAUTH_REFRESH_TOKEN": {
+      "description": "The Dropbox OAuth Refresh Token",
+      "required": false
     }
   },
   "buildpacks": [

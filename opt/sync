@@ -16,3 +16,28 @@ EOF
   fi
   rm .s3cfg
 fi
+
+if [ -n "$DROPBOX_OAUTH_APP_KEY" ]; then
+  DROPBOX_CONFIG_PATH=.dropbox_config
+  BACKUP_FILE_NAME=server-backup.tar.gz
+  cat << EOF > $DROPBOX_CONFIG_PATH
+CONFIGFILE_VERSION=2.0
+OAUTH_APP_KEY=${DROPBOX_OAUTH_APP_KEY}
+OAUTH_APP_SECRET=${DROPBOX_OAUTH_APP_SECRET}
+OAUTH_REFRESH_TOKEN=${DROPBOX_OAUTH_REFRESH_TOKEN}
+EOF
+  if [ -d world ]; then
+    # Currently, only backing up the world directory.
+    # This line can be modified to include plugins, etc.
+    tar -czvf $BACKUP_FILE_NAME world
+    bin/dropbox_uploader -f $DROPBOX_CONFIG_PATH upload $BACKUP_FILE_NAME /$BACKUP_FILE_NAME
+    rm $BACKUP_FILE_NAME
+  else
+    if bin/dropbox_uploader -f $DROPBOX_CONFIG_PATH download /$BACKUP_FILE_NAME
+    then
+      tar -xzvf $BACKUP_FILE_NAME
+      rm $BACKUP_FILE_NAME
+    fi
+  fi
+  rm $DROPBOX_CONFIG_PATH
+fi

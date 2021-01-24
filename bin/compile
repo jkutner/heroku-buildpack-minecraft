@@ -86,6 +86,11 @@ curl -o minecraft.jar -s -L $minecraft_url
 mv minecraft.jar $BUILD_DIR/minecraft.jar
 echo "done"
 
+echo -n "-----> Installing Dropbox-Uploader... "
+curl --silent -o dropbox_uploader.sh -L "https://raw.githubusercontent.com/andreafabrizi/Dropbox-Uploader/master/dropbox_uploader.sh" | indent
+mv dropbox_uploader.sh $BUILD_DIR/bin/dropbox_uploader
+echo "done"
+
 if [ -n "${MINECRAFT_EULA:-""}" ]; then
   echo -n "-----> Accepting Minecraft EULA... "
   echo "eula=true" >> $BUILD_DIR/eula.txt
@@ -97,5 +102,6 @@ mkdir -p $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/sync ]        && cp $OPT_DIR/sync $BUILD_DIR/bin
 [ ! -f $BUILD_DIR/index.rhtml ] && cp $OPT_DIR/index.rhtml $BUILD_DIR
 
+chmod +x $BUILD_DIR/bin/dropbox_uploader
 chmod +x $BUILD_DIR/bin/minecraft
 chmod +x $BUILD_DIR/bin/sync
