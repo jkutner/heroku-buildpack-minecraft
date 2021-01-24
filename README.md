@@ -44,39 +44,63 @@ Server available at: 0.tcp.ngrok.io:17003
 Copy the `0.tcp.ngrok.io:17003` part, and paste it into your local Minecraft app
 as the server name.
 
-## Syncing to S3
+## Syncing your Minecraft World
 
 The Heroku filesystem is [ephemeral](https://devcenter.heroku.com/articles/dynos#ephemeral-filesystem),
 which means files written to the file system will be destroyed when the server is restarted.
 
 Minecraft keeps all of the data for the server in flat files on the file system.
-Thus, if you want to keep you world, you'll need to sync it to S3.
+Thus, if you want to keep your world, you'll need to sync it to an external permanent storage system. Currently supported options are AWS S3 or Dropbox.
+
+> You can either use AWS S3 or Dropbox or both (maybe a little overkill).
+
+### Syncing to AWS S3
 
 First, create an [AWS account](https://aws.amazon.com/) and an S3 bucket. Then configure the bucket
 and your AWS keys like this:
 
-```
+```bash
 $ heroku config:set AWS_BUCKET=your-bucket-name
 $ heroku config:set AWS_ACCESS_KEY=xxx
 $ heroku config:set AWS_SECRET_KEY=xxx
 ```
 
-The buildpack will sync your world to the bucket every 60 seconds, but this is configurable by setting the `AWS_SYNC_INTERVAL` config var.
+### Syncing to Dropbox
+
+Create a [Dropbox account](https://www.dropbox.com/register) and then create a [Dropbox App](https://www.dropbox.com/developers/reference/getting-started#app%20console). You can get the values of your `App Key` and `App Secret` by selecting your app in the [App Console](https://www.dropbox.com/developers/apps).
+
+There is a one-time step required to generate an OAuth Refresh Token that can be used to periodically refresh API access to your Dropbox sync folder. Follow the steps below to create one:
+
+1. Install [andreafabrizi/Dropbox-Uploader](https://github.com/andreafabrizi/Dropbox-Uploader/#getting-started) on your local system.
+2. Run `./dropbox_uploader.sh` once, complete the setup wizard steps.
+3. Run `cat ~/.dropbox_uploader` and copy your refresh token.
+
+> Awesome work done by [@andreafabrizi](https://github.com/andreafabrizi) on [Dropbox-Uploader](https://github.com/andreafabrizi/Dropbox-Uploader) enables this feature! :tada:
+
+Configure Dropbox access like this:
+
+```bash
+$ heroku config:set DROPBOX_OAUTH_APP_KEY=your-app-key
+$ heroku config:set DROPBOX_OAUTH_APP_SECRET=your-app-secret
+$ heroku config:set DROPBOX_OAUTH_REFRESH_TOKEN=xxx
+```
+
+> The buildpack will sync your world to the bucket every 60 seconds, but this is configurable by setting the `AWS_SYNC_INTERVAL` config var.
 
 ## Connecting to the server console
 
 The Minecraft server runs inside a `screen` session. You can use [Heroku Exec](https://devcenter.heroku.com/articles/heroku-exec) to connect to your server console.
 
-Once you have Heroku Exec installed, you can connect to the console using 
+Once you have Heroku Exec installed, you can connect to the console using
 
-```
+```bash
 $ heroku ps:exec
 Establishing credentials... done
 Connecting to web.1 on ⬢ lovely-minecraft-2351...
 $ screen -r minecraft
 ```
 
-**WARNING** You are now connected to the Minecraft server. Use `Ctrl-A Ctrl-D` to exit the screen session. 
+**WARNING** You are now connected to the Minecraft server. Use `Ctrl-A Ctrl-D` to exit the screen session.
 (If you hit `Ctrl-C` while in the session, you'll terminate the Minecraft server.)
 
 ## Customizing
