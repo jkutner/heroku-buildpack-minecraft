@@ -60,7 +60,7 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.16.2"}
+minecraft_version=${MINECRAFT_VERSION:-"1.16.5"}
 
 if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
   minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
