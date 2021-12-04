@@ -19,10 +19,11 @@ export_env_dir() {
   fi
 }
 
-BP_DIR="$(cd "$(dirname "$0")" && pwd)"
+BP_BIN_DIR="$(cd "$(dirname "$0")" && pwd)"
 BUILD_DIR=$1
 CACHE_DIR=$2
-OPT_DIR=$BP_DIR/../opt/
+OPT_DIR=$BP_BIN_DIR/../opt/
+ETC_DIR=$BP_BIN_DIR/../etc/
 
 export_env_dir $3
 
@@ -60,25 +61,11 @@ curl --silent -o ngrok.zip -L "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable
 unzip ngrok.zip -d $BUILD_DIR/bin > /dev/null 2>&1
 echo "done"
 
-minecraft_version=${MINECRAFT_VERSION:-"1.17.1"}
-
-if echo "$minecraft_version" | grep -q '^1\.17.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="fc87ef4c3cf1c815809249cc00ccade233b22cf5"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.16.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="a412fd69db1f81db3f511c1463fd304675244077"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.15.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="bb2b6b1aefcd70dfd1892149ac3a215f6c636b07"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.13.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="d0caafb8438ebd206f99930cfaecfa6c9a13dca0"}"
-  minecraft_url="https://launcher.mojang.com/mc/game/${minecraft_version}/server/${minecraft_uuid}/server.jar"
-elif echo "$minecraft_version" | grep -q '^1\.14.*$'; then
-  minecraft_uuid="${MINECRAFT_UUID:="d0d0fe2b1dc6ab4c65554cb734270872b72dadd6"}"
-  minecraft_url="https://launcher.mojang.com/v1/objects/${minecraft_uuid}/server.jar"
-else
-  minecraft_url="https://s3.amazonaws.com/Minecraft.Download/versions/${minecraft_version}/minecraft_server.${minecraft_version}.jar"
+minecraft_version=${MINECRAFT_VERSION:-"1.18.1"}
+minecraft_url="$(cat $ETC_DIR/files.json | python -c "import json,sys;obj=json.load(sys.stdin);print(obj[\"server\"][\"${minecraft_version}\"][\"url\"])")"
+if [ -z "$minecraft_url" ]; then
+  echo "Could not find URL for Minecraft version $minecraft_version. Please check files.json."
+  exit 1
 fi
 
 echo -n "-----> Installing Minecraft ${minecraft_version}... "
