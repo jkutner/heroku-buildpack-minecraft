@@ -1,6 +1,6 @@
 <% open('ngrok.log') do |f| %>
   <% f.lines.select { |line| line.include?("URL:") }.each do |line| %>
-    Server available at: <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %>
+<div style="text-align:center; font-size: 30; font-family: \"Comic Sans MS\", cursive, sans-serif">Server available at: <%= line.match(/tcp:\/\/(.+:[0-9]+) /)[1] %></div>
     <br />
   <% end %>
 <% end %>

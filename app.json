@@ -11,6 +11,10 @@
       "description": "Do you accept the Minecraft EULA?",
       "value": "true"
     },
+    "CRACKED_CLIENT": {
+      "description": "You don't allow cracked clients to join",
+      "required": true
+    },
     "NGROK_API_TOKEN": {
       "description": "Your personal ngrok API token",
       "required": true
