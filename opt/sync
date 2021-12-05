@@ -8,6 +8,8 @@ if [ -n "$AWS_BUCKET" ]; then
 access_key = ${AWS_ACCESS_KEY}
 secret_key = ${AWS_SECRET_KEY}
 EOF
+  # note: this won't work if level-name is set in server.properties
+  # todo: dynamically determine world/ dir
   if [ -d world ]; then
     s3cmd sync world/ s3://${AWS_BUCKET}/${WORLD_NAME}/world/
   else
