@@ -16,7 +16,7 @@ $ git add eula.txt
 $ git commit -m "first commit"
 ```
 
-Then, install the [Heroku toolbelt](https://toolbelt.heroku.com/).
+Then, install the [Heroku CLI](https://cli.heroku.com/).
 Create a Heroku app, set your ngrok token, and push:
 
 ```sh-session
@@ -67,7 +67,7 @@ The buildpack will sync your world to the bucket every 60 seconds, but this is c
 
 The Minecraft server runs inside a `screen` session. You can use [Heroku Exec](https://devcenter.heroku.com/articles/heroku-exec) to connect to your server console.
 
-Once you have Heroku Exec installed, you can connect to the console using 
+Once you have Heroku Exec installed, you can connect to the console using
 
 ```
 $ heroku ps:exec
@@ -76,7 +76,7 @@ Connecting to web.1 on ⬢ lovely-minecraft-2351...
 $ screen -r minecraft
 ```
 
-**WARNING** You are now connected to the Minecraft server. Use `Ctrl-A Ctrl-D` to exit the screen session. 
+**WARNING** You are now connected to the Minecraft server. Use `Ctrl-A Ctrl-D` to exit the screen session.
 (If you hit `Ctrl-C` while in the session, you'll terminate the Minecraft server.)
 
 ## Customizing
@@ -94,7 +94,7 @@ $ heroku config:set NGROK_OPTS="--remote-addr 1.tcp.ngrok.io:25565"
 You can choose the Minecraft version by setting the MINECRAFT_VERSION like so:
 
 ```
-$ heroku config:set MINECRAFT_VERSION="1.8.3"
+$ heroku config:set MINECRAFT_VERSION="1.18.1"
 ```
 
 You can also configure the server properties by creating a `server.properties`
@@ -104,3 +104,16 @@ described on the [Minecraft Wiki](http://minecraft.gamepedia.com/Server.properti
 
 You can add files such as `banned-players.json`, `banned-ips.json`, `ops.json`,
 `whitelist.json` to your Git repository and the Minecraft server will pick them up.
+
+### Adding New Minecraft Versions
+
+Please submit Pull Requests to [`etc/files.json`](https://github.com/jkutner/heroku-buildpack-minecraft/blob/master/etc/files.json)
+
+### Using the Buildpack from source
+
+If you want the bleeding edge version of this buildpack run:
+
+```
+$ heroku buildpacks:remove jkutner/minecraft
+$ heroku buildpacks:add https://github.com/jkutner/heroku-buildpack-minecraft
+```
