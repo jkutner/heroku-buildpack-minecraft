@@ -1,5 +1,8 @@
 {
   "server": {
+    "1.19.2" : {
+      "url" : "https://piston-data.mojang.com/v1/objects/f69c284232d7c7580bd89a5a4931c3581eae1378/server.jar"
+    },
     "1.18.1" : {
       "url" : "https://launcher.mojang.com/v1/objects/3cf24a8694aca6267883b17d934efacc5e44440d/server.jar"
     },
